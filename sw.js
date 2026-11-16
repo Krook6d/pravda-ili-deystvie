@@ -1,6 +1,6 @@
 // Офлайн-режим. Игра и иконки сохраняются при установке, шрифты — при первом запуске с интернетом.
 // Страницу берём сначала из сети, чтобы новые версии доходили сами; без сети — из кэша.
-const CACHE = 'pravda-v1';
+const CACHE = 'pravda-v2';
 const FILES = [
   './',
   './index.html',
@@ -32,10 +32,10 @@ self.addEventListener('fetch', event => {
       fetch(request)
         .then(response => {
           const copy = response.clone();
-          caches.open(CACHE).then(cache => cache.put('./index.html', copy));
+          caches.open(CACHE).then(cache => cache.put(request, copy));
           return response;
         })
-        .catch(() => caches.match('./index.html'))
+        .catch(() => caches.match(request).then(hit => hit || caches.match('./index.html')))
     );
     return;
   }

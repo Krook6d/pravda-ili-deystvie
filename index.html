@@ -39,6 +39,7 @@
   --on-mode: #FFFFFF;
   --m-normal: #12806A;
   --m-spicy: #C2185B;
+  --m-talk: #6B3FC9;
   --m-drink: #A86400;
   --track: #DCD2E1;
   --scrim: rgba(28, 16, 32, .5);
@@ -56,6 +57,7 @@
   --dare-paper: #C81F3A;
   --m-normal-paper: #12806A;
   --m-spicy-paper: #C2185B;
+  --m-talk-paper: #6B3FC9;
   --m-drink-paper: #A86400;
   --on-deck: #FFFFFF;
   --deck-line: rgba(255, 255, 255, .15);
@@ -73,7 +75,7 @@
     --bg: #1A1320; --bg-glow: #2B1D32; --surface: #251C2C; --surface-2: #2E2436; --line: #3D3146;
     --fg: #F5EFF7; --fg-2: #B6A9BD; --truth: #4E68F5; --dare: #EA4058;
     --good: #3FC99B; --on-good: #0E241C; --on-mode: #1A1320;
-    --m-normal: #3FC99B; --m-spicy: #F25A9E; --m-drink: #F0A83A;
+    --m-normal: #3FC99B; --m-spicy: #F25A9E; --m-talk: #B490FF; --m-drink: #F0A83A;
     --track: #43374C; --scrim: rgba(6, 3, 8, .64);
     --shadow-1: 0 1px 2px rgba(0, 0, 0, .35), 0 6px 18px rgba(0, 0, 0, .28);
     --shadow-card: 0 2px 6px rgba(0, 0, 0, .4), 0 22px 48px rgba(0, 0, 0, .5);
@@ -85,7 +87,7 @@
   --bg: #1A1320; --bg-glow: #2B1D32; --surface: #251C2C; --surface-2: #2E2436; --line: #3D3146;
   --fg: #F5EFF7; --fg-2: #B6A9BD; --truth: #4E68F5; --dare: #EA4058;
   --good: #3FC99B; --on-good: #0E241C; --on-mode: #1A1320;
-  --m-normal: #3FC99B; --m-spicy: #F25A9E; --m-drink: #F0A83A;
+  --m-normal: #3FC99B; --m-spicy: #F25A9E; --m-talk: #B490FF; --m-drink: #F0A83A;
   --track: #43374C; --scrim: rgba(6, 3, 8, .64);
   --shadow-1: 0 1px 2px rgba(0, 0, 0, .35), 0 6px 18px rgba(0, 0, 0, .28);
   --shadow-card: 0 2px 6px rgba(0, 0, 0, .4), 0 22px 48px rgba(0, 0, 0, .5);
@@ -218,6 +220,7 @@ h1, h2 { text-wrap: balance; }
   cursor: pointer; transition: border-color .15s ease, box-shadow .15s ease;
 }
 .mode[data-mode="spicy"] { --mc: var(--m-spicy); --mp: var(--m-spicy-paper); }
+.mode[data-mode="talk"] { --mc: var(--m-talk); --mp: var(--m-talk-paper); }
 .mode[data-mode="drink"] { --mc: var(--m-drink); --mp: var(--m-drink-paper); }
 .mode[aria-pressed="true"] { border-color: var(--mc); box-shadow: inset 0 0 0 1px var(--mc); }
 .mode-card {
@@ -371,6 +374,8 @@ label.set-row { cursor: pointer; }
 
 .choose { display: grid; gap: 14px; }
 .decks { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; padding: 4px 8px 10px 0; }
+/* только вопросы: одна колода «Правда» по центру */
+.decks.single { grid-template-columns: minmax(0, 1fr); width: 100%; max-width: 230px; margin: 0 auto; }
 .deck {
   --dc: var(--truth);
   position: relative; display: block; width: 100%; aspect-ratio: 5 / 7;
@@ -437,6 +442,7 @@ label.set-row { cursor: pointer; }
 .card.dare { --kc: var(--dare-paper); }
 .card.event { --kc: var(--ink); }
 .card.m-spicy, .card.m-combo { --sc: var(--m-spicy-paper); }
+.card.m-talk { --sc: var(--m-talk-paper); }
 .card.m-drink { --sc: var(--m-drink-paper); }
 .card.drawn { animation: draw .6s cubic-bezier(.2, .8, .25, 1) both; }
 @keyframes draw {
@@ -596,6 +602,7 @@ label.set-row { cursor: pointer; }
   <symbol id="s-heart" viewBox="0 0 24 24"><path d="M12 21.2C5.1 16.3 2.2 12.7 2.2 8.9 2.2 6 4.5 3.7 7.3 3.7c1.9 0 3.6 1 4.7 2.7 1.1-1.7 2.8-2.7 4.7-2.7 2.8 0 5.1 2.3 5.1 5.2 0 3.8-2.9 7.4-9.8 12.3z"/></symbol>
   <symbol id="s-glass" viewBox="0 0 24 24"><path d="M3.5 3.5h17l-7.3 8.6v6.4h4v2H6.8v-2h4v-6.4z"/></symbol>
   <symbol id="s-flame" viewBox="0 0 24 24"><path d="M12.6 1.8c.5 3.4 3.3 5.3 4.8 7.8 1.4 2.3 1.6 5.2.3 7.6-1.1 2.1-3.3 3.6-5.7 3.6-2.6 0-4.9-1.6-5.9-4-1-2.3-.6-5 .9-7 .4 1.3 1.3 2.3 2.6 2.7-.8-3.9.8-7.7 3-10.7z"/></symbol>
+  <symbol id="s-bubble" viewBox="0 0 24 24"><path d="M5 4h14a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-7l-5 4v-4H5a3 3 0 0 1-3-3V7a3 3 0 0 1 3-3z"/></symbol>
   <symbol id="i-back" viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
 </svg>
 
@@ -700,7 +707,7 @@ label.set-row { cursor: pointer; }
     </div>
 
     <div class="choose" id="choose">
-      <div class="decks">
+      <div class="decks" id="decks">
         <button type="button" class="deck truth" id="deck-truth">
           <span class="layer l3"></span><span class="layer l2"></span>
           <span class="layer top"><span class="medal" aria-hidden="true">?</span><span class="deck-name">Правда</span><span class="deck-left" id="left-truth"></span></span>
@@ -1003,6 +1010,72 @@ const DECKS = {
       'Кто сегодня в красном белье? Признавайтесь!',
     ],
   },
+  // «Пошлые вопросы»: только правда, без действий; в игре к ним добавляются и вопросы «Пошлого»
+  talk: {
+    truth: [
+      'Утро или ночь: когда тебе хочется больше всего?',
+      'Какой самый быстрый секс у тебя был? Где это было?',
+      'Как ты намекаешь, что хочешь продолжения вечера?',
+      'Какая фраза или звук партнёра заводит тебя сильнее всего?',
+      'Ты когда-нибудь занимал{ся|ась} сексом по телефону или в переписке?',
+      'Какое самое странное место, где ты целовал{ся|ась}?',
+      'Какая вещь в твоём гардеробе самая сексуальная?',
+      'В постели ты больше любишь вести или подчиняться?',
+      'Какая сцена из фильма или сериала тебя неожиданно возбудила?',
+      'Сколько свиданий, по-твоему, должно пройти до первого секса?',
+      'Был ли у тебя секс, о котором ты пожалел{а} уже утром?',
+      'Ты когда-нибудь заходил{а} в секс-шоп? Что купил{а}?',
+      'Какую игрушку для взрослых ты хотел{а} бы попробовать?',
+      'Что ты сделаешь, если узнаешь, что тебя хочет кто-то из присутствующих?',
+      'Кто из присутствующих, по-твоему, самый опытный в постели?',
+      'Кто из присутствующих, по-твоему, самый громкий в постели?',
+      'Какой самый смелый наряд ты надевал{а} ради кого-то?',
+      'Был ли у тебя секс с другом? Чем всё закончилось?',
+      'Какой первый раз с новым человеком у тебя был самым неудачным?',
+      'Ты когда-нибудь притворял{ся|ась}, что тебе хорошо в постели?',
+      'Какую фразу в постели ты не смог{|ла} воспринять всерьёз?',
+      'Кому из бывших ты бы написал{а} прямо сейчас ради одной ночи?',
+      'Как ты относишься к сексу без обязательств?',
+      'Какое самое горячее воспоминание у тебя осталось с прошлого лета?',
+      'О чём ты чаще всего фантазируешь?',
+      'Ты когда-нибудь делал{а} откровенные фото только для себя?',
+      'Где ты хотел{а} бы заняться сексом хотя бы раз в жизни?',
+      'Что сексуальнее: уверенность или загадочность?',
+      'Какую часть своего тела ты считаешь самой сексуальной?',
+      'Что заводит тебя сильнее: слова или прикосновения?',
+      'Сколько длился твой самый долгий поцелуй?',
+      'Опиши идеальную ночь: от первого взгляда до утра.',
+      'Какую фантазию ты точно никогда не воплотишь?',
+      'Ты бы согласил{ся|ась} на открытые отношения?',
+      'Что ты обычно снимаешь с партнёра первым?',
+      'У тебя был секс на работе или на учёбе?',
+      'Какой у тебя рекорд: сколько раз за одну ночь?',
+      'Был ли у тебя секс в душе? Понравилось?',
+      'Ты когда-нибудь флиртовал{а} с кем-то, будучи в отношениях?',
+      'Какая песня у тебя ассоциируется с сексом?',
+      'У тебя был секс на природе? Как всё прошло?',
+      'О чём ты когда-нибудь врал{а} партнёру насчёт секса?',
+      'Ты когда-нибудь писал{а} кому-то из присутствующих что-то с намёком?',
+      'Какой самый пошлый комплимент ты сам{|а} кому-то делал{а}?',
+      'Какой у тебя «тип»? Кто из присутствующих ближе всего к нему?',
+      'Если бы про твою личную жизнь сняли фильм 18+, как бы он назывался?',
+      'Какой секрет о своей сексуальной жизни ты не рассказывал{а} даже лучшим друзьям?',
+      'Тебе нравится, когда партнёр ревнует?',
+      'Опиши тремя словами, каково, по-твоему, быть в постели с {p:ins}.',
+      'Что бы ты хотел{а} узнать о личной жизни {p:gen}? Спроси прямо сейчас.',
+      'Кто опытнее в постели: ты или {p}? Только честно.',
+      'Если бы пришлось провести ночь с {p:ins} или с {p2:ins}, кого бы ты выбрал{а}?',
+    ],
+    event: [
+      'По кругу: каждый в двух словах описывает свой самый горячий поцелуй.',
+      'Голосование: кто за столом самый опытный в постели? Он(а) честно говорит, угадали ли остальные.',
+      '{p} задаёт любому игроку один откровенный вопрос. Отвечать честно!',
+      'Поднимите руку те, кто хоть раз отправлял откровенное фото.',
+      'Тайное голосование: каждый пишет в заметках имя самого сексуального человека за столом. {p} собирает ответы и зачитывает итог.',
+      'По кругу: каждый заканчивает фразу «Я никогда никому не говорил(а), что…».',
+      'Поднимите руку те, кто хоть раз целовался с кем-то в первый же вечер знакомства.',
+    ],
+  },
   drink: {
     truth: [
       'Какая твоя самая стыдная пьяная история?',
@@ -1082,7 +1155,7 @@ const DECKS = {
       'Перерыв: до следующего джокера никто не пьёт. Вместо штрафа 5 приседаний.',
     ],
   },
-  // открываются, только когда выбраны и «Пошлый», и «Алкогольный»
+  // открываются вместе с «Алкогольным»: с «Пошлым» — все, с «Пошлыми вопросами» — только вопросы
   combo: {
     truth: [
       'Что самое откровенное ты делал{а} по пьяни?',
@@ -1113,10 +1186,11 @@ const DECKS = {
 const MODES = [
   { key: 'normal', name: 'Обычный', icon: 's-star', adult: false, desc: 'Смешные вопросы и задания для любой компании.' },
   { key: 'spicy', name: 'Пошлый', icon: 's-heart', adult: true, desc: 'Флирт, откровенные вопросы, поцелуи и раздевание. Всё только по согласию.' },
+  { key: 'talk', name: 'Пошлые вопросы', icon: 's-bubble', adult: true, desc: 'Только откровенные вопросы, без заданий: можно играть, не вставая с места.' },
   { key: 'drink', name: 'Алкогольный', icon: 's-glass', adult: true, desc: 'Тосты, брудершафты и штрафные глотки. Можно играть и с лимонадом.' },
 ];
-const MODE_NAME = { normal: 'Обычный', spicy: 'Пошлый', drink: 'Алкогольный', combo: 'Комбо 18+' };
-const MODE_ICON = { normal: 's-star', spicy: 's-heart', drink: 's-glass', combo: 's-flame' };
+const MODE_NAME = { normal: 'Обычный', spicy: 'Пошлый', talk: 'Пошлые вопросы', drink: 'Алкогольный', combo: 'Комбо 18+' };
+const MODE_ICON = { normal: 's-star', spicy: 's-heart', talk: 's-bubble', drink: 's-glass', combo: 's-flame' };
 const TYPE_NAME = { truth: 'Правда', dare: 'Действие' };
 const POINTS = { truth: 1, dare: 2 };
 const G_SHORT = { m: 'М', f: 'Ж', '': '?' };
@@ -1235,16 +1309,18 @@ function penaltyShort() {
 }
 
 /* ---------- колоды ---------- */
-function activeKeys() {
+function activeKeys(type) {
   const k = MODES.map(m => m.key).filter(x => S.modes[x]);
-  if (S.modes.spicy && S.modes.drink) k.push('combo');
+  // «Пошлые вопросы» берут и вопросы «Пошлого», но без его действий и джокеров
+  if (type === 'truth' && S.modes.talk && !S.modes.spicy) k.push('spicy');
+  if (S.modes.drink && (S.modes.spicy || (S.modes.talk && type === 'truth'))) k.push('combo');
   return k;
 }
-const deckKey = () => activeKeys().join('+') + (S.players.length < 3 ? '/2' : '/3');
+const deckKey = () => MODES.map(m => m.key).filter(x => S.modes[x]).join('+') + (S.players.length < 3 ? '/2' : '/3');
 const cardText = e => typeof e === 'string' ? e : e.t;
 function deckRefs(type) {
   const refs = [];
-  for (const k of activeKeys()) {
+  for (const k of activeKeys(type)) {
     (DECKS[k][type] || []).forEach((e, i) => {
       if (S.players.length < 3 && cardText(e).includes('{p2')) return;
       refs.push(k + ':' + i);
@@ -1289,7 +1365,8 @@ function draw(type) {
         if (left > 0 && skips++ < 3) d.order.splice(d.pos + 1 + Math.floor(Math.random() * Math.min(left, 5)), 0, ref);
         continue;
       }
-      return { m, t: cardText(e), by: e.by || '' };
+      // вопрос «Пошлого», вытянутый без самой колоды, подписан как «Пошлые вопросы»
+      return { m: m === 'spicy' && !S.modes.spicy ? 'talk' : m, t: cardText(e), by: e.by || '' };
     }
   }
   return null;
@@ -1321,7 +1398,8 @@ function makeCard(raw, type) {
 /* ---------- меню ---------- */
 function renderModes() {
   $('#modes').innerHTML = MODES.map(m => {
-    const n = ['truth', 'dare', 'event'].reduce((s, t) => s + DECKS[m.key][t].length, 0);
+    const n = ['truth', 'dare', 'event'].reduce((s, t) => s + (DECKS[m.key][t] || []).length, 0)
+      + (m.key === 'talk' ? DECKS.spicy.truth.length : 0);
     return `<button type="button" class="mode" id="mode-${m.key}" data-mode="${m.key}" aria-pressed="false">
       <span class="mode-card" aria-hidden="true"><svg><use href="#${m.icon}"/></svg></span>
       <span class="mode-text">
@@ -1332,12 +1410,15 @@ function renderModes() {
       <span class="mode-check" aria-hidden="true"></span>
     </button>`;
   }).join('');
-  const nc = ['truth', 'dare', 'event'].reduce((s, t) => s + DECKS.combo[t].length, 0);
-  $('#comboNote').innerHTML = `<svg aria-hidden="true"><use href="#s-flame"/></svg><span>Пошлый и Алкогольный вместе открывают ещё ${pl(nc, 'карту-комбо', 'карты-комбо', 'карт-комбо')}.</span>`;
+  $('#comboNote').innerHTML = '<svg aria-hidden="true"><use href="#s-flame"/></svg><span></span>';
 }
 function syncModes() {
   document.querySelectorAll('.mode').forEach(b => b.setAttribute('aria-pressed', String(!!S.modes[b.dataset.mode])));
-  $('#comboNote').hidden = !(S.modes.spicy && S.modes.drink);
+  const combo = !S.modes.drink ? 0
+    : S.modes.spicy ? ['truth', 'dare', 'event'].reduce((s, t) => s + DECKS.combo[t].length, 0)
+    : S.modes.talk ? DECKS.combo.truth.length : 0;
+  $('#comboNote').hidden = !combo;
+  if (combo) $('#comboNote span').textContent = `Вместе с «Алкогольным» в игре ещё ${pl(combo, 'карта-комбо', 'карты-комбо', 'карт-комбо')} 18+.`;
 }
 function setMode(key, on) {
   S.modes[key] = on;
@@ -1345,9 +1426,11 @@ function setMode(key, on) {
   syncModes(); syncSettings(); updateStart(); save();
 }
 function askAdult(key) {
-  const what = key === 'spicy'
-    ? 'В колоде «Пошлый» откровенные вопросы и задания про секс, поцелуи и раздевание.'
-    : 'В колоде «Алкогольный» задания с выпивкой и штрафные глотки.';
+  const what = {
+    spicy: 'В колоде «Пошлый» откровенные вопросы и задания про секс, поцелуи и раздевание.',
+    talk: 'В колоде «Пошлые вопросы» откровенные вопросы про секс и отношения.',
+    drink: 'В колоде «Алкогольный» задания с выпивкой и штрафные глотки.',
+  }[key];
   openModal({
     html: `<p class="eyebrow">18+</p><h2>Только для взрослых</h2><p>${what}</p><p>Включайте её, только если всем за столом есть 18 лет.</p>`,
     actions: [
@@ -1457,10 +1540,12 @@ function beginTurn() {
   save();
   renderGame(false, true);
 }
-const truthBlocked = () => !!S.settings.limit && stats(S.game.cur).streak >= 2;
+// без колод с действиями остаётся одна «Правда», и лимит правды не действует
+const hasDares = () => deckRefs('dare').length > 0;
+const truthBlocked = () => !!S.settings.limit && hasDares() && stats(S.game.cur).streak >= 2;
 function choose(type) {
   if (!S.turn || S.turn.phase !== 'choose') return;
-  if (type === 'random') type = truthBlocked() || Math.random() < .5 ? 'dare' : 'truth';
+  if (type === 'random') type = !hasDares() ? 'truth' : truthBlocked() || Math.random() < .5 ? 'dare' : 'truth';
   if (type === 'truth' && truthBlocked()) return;
   const raw = draw(type);
   if (!raw) { toast('В выбранных колодах нет таких карт'); return; }
@@ -1539,6 +1624,10 @@ function renderGame(anim, fresh) {
   $('#choose').hidden = !choosing;
   $('#stage').hidden = choosing;
   if (choosing) {
+    const dares = hasDares();
+    $('#decks').classList.toggle('single', !dares);
+    $('#deck-dare').hidden = !dares;
+    $('#btnRandom').hidden = !dares;
     for (const type of ['truth', 'dare']) {
       const n = cardsLeft(type);
       const label = n ? pl(n, 'карта', 'карты', 'карт') : 'перемешать';
